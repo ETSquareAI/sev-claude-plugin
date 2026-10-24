@@ -1,0 +1,38 @@
+{
+  "name": "sev-by-etsquare-ai",
+  "displayName": "SEV — SEC Filing Discovery",
+  "version": "0.1.0",
+  "description": "Search SEC 10-K and 10-Q filings to find public companies and the original passages that answer your research question.",
+  "author": {
+    "name": "ETSquare AI, LLC",
+    "url": "https://etsquare.ai"
+  },
+  "homepage": "https://etsquare.ai/build",
+  "repository": "https://github.com/ETSquareAI/sev-claude-plugin",
+  "license": "MIT",
+  "keywords": ["SEC", "SEC filings", "EDGAR", "10-K", "10-Q", "annual reports", "quarterly reports", "risk factors", "public companies", "company research"],
+  "icon": "./assets/sev-app-icon.png",
+  "documentationUrl": "https://etsquare.ai/documentation",
+  "supportUrl": "https://etsquare.ai/support",
+  "privacyPolicyUrl": "https://etsquare.ai/privacy",
+  "termsOfServiceUrl": "https://etsquare.ai/terms",
+  "userConfig": {
+    "sev_api_key": {
+      "type": "string",
+      "title": "SEV API key",
+      "description": "Your SEV API key from https://etsquare.ai/account. It starts with sev_ and is kept in secure storage.",
+      "required": true,
+      "sensitive": true
+    }
+  },
+  "mcpServers": {
+    "sev": {
+      "command": "npx",
+      "args": ["-y", "@etsquare/sev-mcp@0.1.3"],
+      "env": {
+        "SEV_API_KEY": "${user_config.sev_api_key}",
+        "SEV_BASE_URL": "https://etsquare.ai"
+      }
+    }
+  }
+}
