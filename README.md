@@ -2,7 +2,7 @@
 
 A Claude Code plugin by ETSquare AI, LLC.
 
-Search SEC 10-K and 10-Q filings in plain English. SEV finds public companies whose filings discuss your topic and returns the exact original passages, with links to the filings on SEC EDGAR. Claude can then read each full passage and its surrounding text.
+Search SEC 10-K and 10-Q filings in plain English. SEV finds public companies whose filings discuss your topic and returns the exact original passages, with links to the filings on SEC EDGAR, and available reported financial figures. Claude can then read each full passage and its surrounding text.
 
 Useful for questions about shipping and supply-chain disruptions, tariffs and sourcing changes, or operational problems such as aircraft groundings.
 
@@ -24,7 +24,7 @@ SEV returns research leads. It does not analyze companies, draw investment concl
 
 Both tools are read-only.
 
-- `discover_sec_companies` finds relevant companies and one to three original passages per company. Optional filters: explicit tickers or four-digit SIC codes (not both), an inclusive filing-date cutoff (`filed_since`) and `max_companies` (default 10, maximum 50).
+- `discover_sec_companies` finds relevant companies and one to three original passages per company. When available, it also returns reported financial figures, each labeled with its own reporting period and source filing. Check each figure's period; figures do not show what caused a change. Optional filters: explicit tickers or four-digit SIC codes (not both), an inclusive filing-date cutoff (`filed_since`) and `max_companies` (default 10, maximum 50).
 - `get_sec_passage` reads the full original passage and available adjacent context, using a `passage_id` returned by discovery.
 
 ## Example questions
@@ -35,14 +35,14 @@ Both tools are read-only.
 
 ## What the plugin runs and sends
 
-- At startup, Claude Code runs `npx -y @etsquare/sev-mcp@0.1.3`. This downloads that exact published package from the npm registry (https://www.npmjs.com/package/@etsquare/sev-mcp), or reuses a cached copy, and runs it on your computer.
+- At startup, Claude Code runs `npx -y @etsquare/sev-mcp@0.1.4`. This downloads that exact published package from the npm registry (https://www.npmjs.com/package/@etsquare/sev-mcp), or reuses a cached copy, and runs it on your computer.
 - When Claude calls a tool, the server sends that tool's arguments (your research question and any filters, or a passage ID) to https://etsquare.ai over HTTPS, together with your API key.
 - It does not read your files or your conversation beyond those tool arguments, and it does not save your questions or results locally. npm may cache the package files, and Claude Code stores your settings and API key.
 - How SEV handles this data is described in the Privacy Policy: https://etsquare.ai/privacy
 
 ## Usage and limits
 
-A successful search, including a valid empty result, uses one search from your SEV account allowance, which is shared with the SEV website and API. Searches that fail on SEV's side, and passage reads, do not use it. The plugin stops waiting after 20 seconds and never retries automatically. A search can still finish on SEV's side after a timeout, and then it counts as used.
+A successful search, including a valid empty result, uses one search from your SEV account allowance, which is shared with the SEV website and API. Searches that fail on SEV's side, and passage reads, do not use it. Run one search at a time per account; a second search sent while one is running may be refused as busy. The plugin stops waiting after 20 seconds and never retries automatically. A search can still finish on SEV's side after a timeout, and then it counts as used.
 
 ## Security and support
 
