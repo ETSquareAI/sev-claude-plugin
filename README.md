@@ -10,8 +10,7 @@ SEV returns research leads. It does not analyze companies, draw investment concl
 
 ## What you need
 
-- **Claude Code.** The plugin is tested in Claude Code, which asks for your API key when you set it up. claude.ai chat does not run local plugin servers, and Cowork currently skips plugin servers that need a setting such as the API key.
-- **Node.js 20.19 or later** on your PATH. The plugin starts its server with `npx`.
+- **Claude Code.** The plugin is tested in Claude Code, which asks for your API key when you set it up.
 - **A SEV API key.** Sign in at https://etsquare.ai/account, accept the Terms and create a key.
 
 ## Set up
@@ -33,16 +32,16 @@ Both tools are read-only.
 - Which retailers said tariffs on imported apparel or footwear raised their merchandise costs or made them shift sourcing to other countries?
 - Which airlines or aircraft operators said engine problems or spare-parts shortages grounded aircraft and reduced the capacity they could fly?
 
-## What the plugin runs and sends
+## What the plugin connects to and sends
 
-- At startup, Claude Code runs `npx -y @etsquare/sev-mcp@0.1.4`. This downloads that exact published package from the npm registry (https://www.npmjs.com/package/@etsquare/sev-mcp), or reuses a cached copy, and runs it on your computer.
-- When Claude calls a tool, the server sends that tool's arguments (your research question and any filters, or a passage ID) to https://etsquare.ai over HTTPS, together with your API key.
-- It does not read your files or your conversation beyond those tool arguments, and it does not save your questions or results locally. npm may cache the package files, and Claude Code stores your settings and API key.
+- The plugin runs nothing on your computer. Claude Code connects to SEV's hosted MCP server at https://etsquare.ai/mcp over HTTPS.
+- When Claude calls a tool, Claude Code sends that tool's arguments (your research question and any filters, or a passage ID) to that server, with your API key in the `Authorization` header.
+- The plugin does not read your files or your conversation beyond those tool arguments. Claude Code stores your settings and API key.
 - How SEV handles this data is described in the Privacy Policy: https://etsquare.ai/privacy
 
 ## Usage and limits
 
-A successful search, including a valid empty result, uses one search from your SEV account allowance, which is shared with the SEV website and API. Searches that fail on SEV's side, and passage reads, do not use it. Run one search at a time per account; a second search sent while one is running may be refused as busy. The plugin stops waiting after 20 seconds and never retries automatically. A search can still finish on SEV's side after a timeout, and then it counts as used.
+A successful search, including a valid empty result, uses one search from your SEV account allowance, which is shared with the SEV website and API. Searches that fail on SEV's side, and passage reads, do not use it. Run one search at a time per account; a second search sent while one is running may be refused as busy. SEV never retries a search automatically. If a search times out on your side, it can still finish on SEV's side, and then it counts as used.
 
 ## Security and support
 
@@ -54,4 +53,4 @@ A successful search, including a valid empty result, uses one search from your S
 
 ## License
 
-MIT. This repository holds the plugin manifest. The server is the published npm package `@etsquare/sev-mcp`.
+MIT. This repository holds the plugin manifest. The server is SEV's hosted MCP endpoint at https://etsquare.ai/mcp.
