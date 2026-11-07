@@ -1,7 +1,7 @@
 {
   "name": "sev-by-etsquare-ai",
   "displayName": "SEV — SEC Filing Discovery",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Search SEC 10-K and 10-Q filings to find public companies, relevant original passages and available reported financial figures for your research question.",
   "author": {
     "name": "ETSquare AI, LLC",
@@ -27,11 +27,10 @@
   },
   "mcpServers": {
     "sev": {
-      "command": "npx",
-      "args": ["-y", "@etsquare/sev-mcp@0.1.4"],
-      "env": {
-        "SEV_API_KEY": "${user_config.sev_api_key}",
-        "SEV_BASE_URL": "https://etsquare.ai"
+      "type": "http",
+      "url": "https://etsquare.ai/mcp",
+      "headers": {
+        "Authorization": "Bearer ${user_config.sev_api_key}"
       }
     }
   }
